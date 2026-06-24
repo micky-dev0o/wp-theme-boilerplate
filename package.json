@@ -3,11 +3,26 @@
   "version": "1.0.0",
   "description": "Reusable SCSS boilerplate for fast WordPress theme development",
   "scripts": {
-    "build": "sass src/scss/main.scss dist/style.css --no-source-map --style=compressed",
-    "build:dev": "sass src/scss/main.scss dist/style.css --style=expanded --no-source-map",
-    "watch": "sass --watch src/scss/main.scss:dist/style.css --style=expanded"
+    "sass:build": "sass src/scss/main.scss dist/_tmp.css --no-source-map --style=compressed",
+    "sass:dev": "sass src/scss/main.scss dist/_tmp.css --style=expanded --no-source-map",
+    "sass:watch": "sass --watch src/scss/main.scss:dist/_tmp.css --style=expanded --no-source-map",
+    "postcss:run": "postcss dist/_tmp.css -o dist/style.css",
+    "postcss:watch": "postcss dist/_tmp.css -o dist/style.css --watch",
+    "clean": "rimraf dist/_tmp.css",
+    "build": "npm-run-all sass:build postcss:run clean",
+    "build:dev": "npm-run-all sass:dev postcss:run clean",
+    "watch": "npm-run-all sass:dev --parallel sass:watch postcss:watch"
   },
   "devDependencies": {
-    "sass": "^1.77.0"
-  }
+    "autoprefixer": "^10.5.1",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.15",
+    "postcss-cli": "^11.0.1",
+    "rimraf": "^5.0.5",
+    "sass": "^1.101.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
 }
